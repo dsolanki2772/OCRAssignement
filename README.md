@@ -90,4 +90,4 @@ flutter test test/algorithm_test.dart
 
 ## 👨‍💻 Author
 **Dalsukh Solanki**
-- Flutter Developer specializing in high-performance agentic applications.
+- Flutter Developer specializing in high-performance applications.
