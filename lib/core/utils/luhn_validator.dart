@@ -8,7 +8,6 @@ class LuhnValidator {
     int sum = 0;
     bool alternate = false;
 
-    // Start from the rightmost digit (check digit) and move left
     for (int i = cleanNumber.length - 1; i >= 0; i--) {
       int digit = int.parse(cleanNumber[i]);
 

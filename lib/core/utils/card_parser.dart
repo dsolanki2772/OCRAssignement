@@ -10,7 +10,7 @@ class CardParser {
     // Split text into lines for better processing
     List<String> lines = rawText.split('\n');
 
-    // 1. Extract Card Number (Robust Sliding Window Approach)
+    // Extract Card Number (Robust Sliding Window Approach)
     // First, clean common OCR misreads in the whole text
     String cleanedText = rawText
         .replaceAll(RegExp(r'[Oo]'), '0')
@@ -39,7 +39,7 @@ class CardParser {
       }
     }
 
-    // Fallback: If no valid card found in sliding window, try the original lines 
+    // If no valid card found in sliding window, try the original lines
     // (though sliding window usually covers it)
     if (cardNumber.isEmpty) {
       RegExp cardRegex = RegExp(r'(?:\d[ -]*?){13,19}');
@@ -53,11 +53,11 @@ class CardParser {
       }
     }
 
-    // 2. Extract Expiry Date
+    // Extract Expiry Date
     // Heuristic: Often follows keywords like "EXP", "VAL", "THRU"
     String textForExpiry = cleanedText.toUpperCase();
     
-    // Pattern 1: MM / YY (with any separator or optional spaces)
+    // MM / YY (with any separator or optional spaces)
     RegExp expiryRegexFlexible = RegExp(r'(0[1-9]|1[0-2])\s*[/\-]\s*(\d{2,4})');
     
     // Try to find near keywords first
@@ -78,7 +78,7 @@ class CardParser {
       }
     }
 
-    // Fallback: Look for 4-digit sequences that look like MMYY (e.g. 1225)
+    // Look for 4-digit sequences that look like MMYY (e.g. 1225)
     // but only if they are NOT part of the card number
     if (expiryDate.isEmpty) {
       RegExp pureDigitExpiry = RegExp(r'(0[1-9]|1[0-2])(\d{2})');
@@ -93,7 +93,7 @@ class CardParser {
       }
     }
 
-    // 3. Extract Card Holder Name
+    // Extract Card Holder Name
     // This is heuristic-based. Names usually don't have numbers.
     // We filter out lines that are likely card numbers or expiry dates.
     for (String line in lines) {

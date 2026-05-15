@@ -8,16 +8,14 @@ class PassbookParser {
 
     List<String> lines = rawText.split('\n');
 
-    // 1. Extract IFSC Code
-    // Pattern: 4 letters, '0', 6 alphanumeric characters
+    // Extract IFSC Code
     RegExp ifscRegex = RegExp(r'\b[A-Z]{4}0[A-Z0-9]{6}\b', caseSensitive: false);
     Match? ifscMatch = ifscRegex.firstMatch(rawText);
     if (ifscMatch != null) {
       ifscCode = ifscMatch.group(0)!.toUpperCase();
     }
 
-    // 2. Extract Account Number
-    // Usually 9 to 18 digits. We look for the longest digit string if multiple exist.
+    //  Extract Account Number
     RegExp accountRegex = RegExp(r'\b\d{9,18}\b');
     Iterable<Match> accountMatches = accountRegex.allMatches(rawText);
     
@@ -35,9 +33,7 @@ class PassbookParser {
       }
     }
 
-    // 3. Extract Name
-    // Heuristic: Look for "Name", "Account Holder", "Mr/Ms/Mrs"
-    // Or just look for uppercase lines that don't have numbers or IFSC.
+    // Extract Name
     for (String line in lines) {
       String cleanLine = line.trim();
       if (cleanLine.isEmpty) continue;
